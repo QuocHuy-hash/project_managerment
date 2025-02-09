@@ -1,0 +1,427 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 // models/user.js\
+const \{ Model \} = require('sequelize');\
+\
+module.exports = (sequelize, DataTypes) => \{\
+  class User extends Model \{\
+    static associate(models) \{\
+      User.hasMany(models.Project, \{ foreignKey: 'owner_id' \});\
+      User.hasMany(models.Task, \{ foreignKey: 'assigned_to' \});\
+      User.hasMany(models.TaskComment, \{ foreignKey: 'user_id' \});\
+      User.hasMany(models.TaskDiscussion, \{ foreignKey: 'user_id' \});\
+      User.hasMany(models.TaskReview, \{ foreignKey: 'user_id' \});\
+      User.hasMany(models.Notification, \{ foreignKey: 'user_id' \});\
+      User.hasMany(models.UserPerformance, \{ foreignKey: 'user_id' \});\
+    \}\
+  \}\
+  \
+  User.init(\{\
+    id: \{\
+      type: DataTypes.INTEGER,\
+      primaryKey: true,\
+      autoIncrement: true\
+    \},\
+    username: \{\
+      type: DataTypes.STRING(50),\
+      unique: true,\
+      allowNull: false\
+    \},\
+    password: \{\
+      type: DataTypes.STRING(255),\
+      allowNull: false\
+    \},\
+    email: \{\
+      type: DataTypes.STRING(100),\
+      unique: true,\
+      allowNull: false\
+    \},\
+    role: \{\
+      type: DataTypes.ENUM('Owner', 'Project Manager', 'Frontend Dev', 'Backend Dev', 'Tester'),\
+      allowNull: false\
+    \},\
+    total_projects: \{\
+      type: DataTypes.INTEGER,\
+      defaultValue: 0\
+    \},\
+    total_tasks_completed: \{\
+      type: DataTypes.INTEGER,\
+      defaultValue: 0\
+    \},\
+    total_tasks_incompleted: \{\
+      type: DataTypes.INTEGER,\
+      defaultValue: 0\
+    \},\
+    completion_rate: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    performance_score: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    average_rating: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    created_at: \{\
+      type: DataTypes.DATE,\
+      defaultValue: DataTypes.NOW\
+    \}\
+  \}, \{\
+    sequelize,\
+    modelName: 'User',\
+    timestamps: false\
+  \});\
+  \
+  return User;\
+\};\
+\
+// models/project.js\
+module.exports = (sequelize, DataTypes) => \{\
+  class Project extends Model \{\
+    static associate(models) \{\
+      Project.belongsTo(models.User, \{ foreignKey: 'owner_id' \});\
+      Project.hasMany(models.ProjectPhase, \{ foreignKey: 'project_id' \});\
+      Project.hasMany(models.Task, \{ foreignKey: 'project_id' \});\
+      Project.hasMany(models.UserPerformance, \{ foreignKey: 'project_id' \});\
+      Project.hasMany(models.ProjectReport, \{ foreignKey: 'project_id' \});\
+    \}\
+  \}\
+  \
+  Project.init(\{\
+    id: \{\
+      type: DataTypes.INTEGER,\
+      primaryKey: true,\
+      autoIncrement: true\
+    \},\
+    name: \{\
+      type: DataTypes.STRING(100),\
+      allowNull: false\
+    \},\
+    description: DataTypes.TEXT,\
+    owner_id: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    total_tasks: \{\
+      type: DataTypes.INTEGER,\
+      defaultValue: 0\
+    \},\
+    completed_tasks: \{\
+      type: DataTypes.INTEGER,\
+      defaultValue: 0\
+    \},\
+    progress_rate: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    created_at: \{\
+      type: DataTypes.DATE,\
+      defaultValue: DataTypes.NOW\
+    \}\
+  \}, \{\
+    sequelize,\
+    modelName: 'Project',\
+    timestamps: false\
+  \});\
+  \
+  return Project;\
+\};\
+\
+// models/projectPhase.js\
+module.exports = (sequelize, DataTypes) => \{\
+  class ProjectPhase extends Model \{\
+    static associate(models) \{\
+      ProjectPhase.belongsTo(models.Project, \{ foreignKey: 'project_id' \});\
+      ProjectPhase.hasMany(models.Task, \{ foreignKey: 'phase_id' \});\
+    \}\
+  \}\
+  \
+  ProjectPhase.init(\{\
+    id: \{\
+      type: DataTypes.INTEGER,\
+      primaryKey: true,\
+      autoIncrement: true\
+    \},\
+    project_id: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    name: \{\
+      type: DataTypes.STRING(100),\
+      allowNull: false\
+    \},\
+    description: DataTypes.TEXT,\
+    start_date: DataTypes.DATE,\
+    end_date: DataTypes.DATE,\
+    progress_rate: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    created_at: \{\
+      type: DataTypes.DATE,\
+      defaultValue: DataTypes.NOW\
+    \}\
+  \}, \{\
+    sequelize,\
+    modelName: 'ProjectPhase',\
+    timestamps: false\
+  \});\
+  \
+  return ProjectPhase;\
+\};\
+\
+// models/task.js\
+module.exports = (sequelize, DataTypes) => \{\
+  class Task extends Model \{\
+    static associate(models) \{\
+      Task.belongsTo(models.Project, \{ foreignKey: 'project_id' \});\
+      Task.belongsTo(models.ProjectPhase, \{ foreignKey: 'phase_id' \});\
+      Task.belongsTo(models.Task, \{ as: 'ParentTask', foreignKey: 'parent_task_id' \});\
+      Task.belongsTo(models.User, \{ foreignKey: 'assigned_to' \});\
+      Task.hasMany(models.Task, \{ as: 'SubTasks', foreignKey: 'parent_task_id' \});\
+      Task.hasMany(models.TaskComment, \{ foreignKey: 'task_id' \});\
+      Task.hasMany(models.TaskDiscussion, \{ foreignKey: 'task_id' \});\
+      Task.hasMany(models.TaskReview, \{ foreignKey: 'task_id' \});\
+      Task.hasMany(models.TaskStatusHistory, \{ foreignKey: 'task_id' \});\
+    \}\
+  \}\
+  \
+  Task.init(\{\
+    id: \{\
+      type: DataTypes.INTEGER,\
+      primaryKey: true,\
+      autoIncrement: true\
+    \},\
+    title: \{\
+      type: DataTypes.STRING(100),\
+      allowNull: false\
+    \},\
+    description: DataTypes.TEXT,\
+    project_id: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    phase_id: DataTypes.INTEGER,\
+    parent_task_id: DataTypes.INTEGER,\
+    assigned_to: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    start_date: DataTypes.DATE,\
+    deadline: DataTypes.DATE,\
+    actual_completion_date: DataTypes.DATE,\
+    estimated_hours: DataTypes.FLOAT,\
+    actual_hours: DataTypes.FLOAT,\
+    status: \{\
+      type: DataTypes.ENUM('To Do', 'In Progress', 'Ready for Test', 'Has Bug', 'Tested', 'Released'),\
+      defaultValue: 'To Do'\
+    \},\
+    priority: \{\
+      type: DataTypes.ENUM('Low', 'Medium', 'High', 'Urgent'),\
+      defaultValue: 'Medium'\
+    \},\
+    completion_rate: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    created_at: \{\
+      type: DataTypes.DATE,\
+      defaultValue: DataTypes.NOW\
+    \},\
+    updated_at: \{\
+      type: DataTypes.DATE,\
+      defaultValue: DataTypes.NOW\
+    \}\
+  \}, \{\
+    sequelize,\
+    modelName: 'Task',\
+    timestamps: false\
+  \});\
+  \
+  return Task;\
+\};\
+\
+// models/taskStatusHistory.js\
+module.exports = (sequelize, DataTypes) => \{\
+  class TaskStatusHistory extends Model \{\
+    static associate(models) \{\
+      TaskStatusHistory.belongsTo(models.Task, \{ foreignKey: 'task_id' \});\
+      TaskStatusHistory.belongsTo(models.User, \{ foreignKey: 'changed_by' \});\
+    \}\
+  \}\
+  \
+  TaskStatusHistory.init(\{\
+    id: \{\
+      type: DataTypes.INTEGER,\
+      primaryKey: true,\
+      autoIncrement: true\
+    \},\
+    task_id: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    old_status: \{\
+      type: DataTypes.ENUM('To Do', 'In Progress', 'Ready for Test', 'Has Bug', 'Tested', 'Released')\
+    \},\
+    new_status: \{\
+      type: DataTypes.ENUM('To Do', 'In Progress', 'Ready for Test', 'Has Bug', 'Tested', 'Released'),\
+      allowNull: false\
+    \},\
+    changed_by: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    comment: DataTypes.TEXT,\
+    change_date: \{\
+      type: DataTypes.DATE,\
+      defaultValue: DataTypes.NOW\
+    \}\
+  \}, \{\
+    sequelize,\
+    modelName: 'TaskStatusHistory',\
+    timestamps: false\
+  \});\
+  \
+  return TaskStatusHistory;\
+\};\
+\
+// models/userPerformance.js\
+module.exports = (sequelize, DataTypes) => \{\
+  class UserPerformance extends Model \{\
+    static associate(models) \{\
+      UserPerformance.belongsTo(models.User, \{ foreignKey: 'user_id' \});\
+      UserPerformance.belongsTo(models.Project, \{ foreignKey: 'project_id' \});\
+    \}\
+  \}\
+  \
+  UserPerformance.init(\{\
+    id: \{\
+      type: DataTypes.INTEGER,\
+      primaryKey: true,\
+      autoIncrement: true\
+    \},\
+    user_id: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    project_id: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    total_tasks_assigned: \{\
+      type: DataTypes.INTEGER,\
+      defaultValue: 0\
+    \},\
+    tasks_completed: \{\
+      type: DataTypes.INTEGER,\
+      defaultValue: 0\
+    \},\
+    tasks_incompleted: \{\
+      type: DataTypes.INTEGER,\
+      defaultValue: 0\
+    \},\
+    tasks_completed_on_time: \{\
+      type: DataTypes.INTEGER,\
+      defaultValue: 0\
+    \},\
+    average_completion_time: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    bug_rate: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    average_rating: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    completion_rate: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    on_time_completion_rate: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    performance_score: \{\
+      type: DataTypes.FLOAT,\
+      defaultValue: 0\
+    \},\
+    updated_at: \{\
+      type: DataTypes.DATE,\
+      defaultValue: DataTypes.NOW\
+    \}\
+  \}, \{\
+    sequelize,\
+    modelName: 'UserPerformance',\
+    timestamps: false,\
+    indexes: [\
+      \{\
+        unique: true,\
+        fields: ['user_id', 'project_id']\
+      \}\
+    ]\
+  \});\
+  \
+  return UserPerformance;\
+\};\
+\
+// models/projectReport.js\
+module.exports = (sequelize, DataTypes) => \{\
+  class ProjectReport extends Model \{\
+    static associate(models) \{\
+      ProjectReport.belongsTo(models.Project, \{ foreignKey: 'project_id' \});\
+      ProjectReport.belongsTo(models.User, \{ foreignKey: 'generated_by' \});\
+    \}\
+  \}\
+  \
+  ProjectReport.init(\{\
+    id: \{\
+      type: DataTypes.INTEGER,\
+      primaryKey: true,\
+      autoIncrement: true\
+    \},\
+    project_id: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    report_type: \{\
+      type: DataTypes.ENUM('PDF', 'Excel'),\
+      allowNull: false\
+    \},\
+    file_path: \{\
+      type: DataTypes.STRING(255),\
+      allowNull: false\
+    \},\
+    generated_by: \{\
+      type: DataTypes.INTEGER,\
+      allowNull: false\
+    \},\
+    report_period_start: DataTypes.DATE,\
+    report_period_end: DataTypes.DATE,\
+    report_data: \{\
+      type: DataTypes.JSON,\
+      allowNull: false\
+    \},\
+    created_at: \{\
+      type: DataTypes.DATE,\
+      defaultValue: DataTypes.NOW\
+    \}\
+  \}, \{\
+    sequelize,\
+    modelName: 'ProjectReport',\
+    timestamps: false\
+  \});\
+  \
+  return ProjectReport;\
+\};\
+\
+// Ti\uc0\u7871 p t\u7909 c c\'e1c models kh\'e1c nh\u432  TaskComment, TaskDiscussion, TaskReview, Notification t\u432 \u417 ng t\u7921  nh\u432  file g\u7889 c}

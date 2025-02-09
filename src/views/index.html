@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Ecommerce Project</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="google-site-verification" content="KdBEr6CFPtiwGjAts5k4q1rkyjAd8Dv4aA3CQ_vrBTk" />
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to My Ecommerce Project</h1>
+    </header>
+
+    <h2 style="color: #007bff;">About</h2>
+    <p>
+        This is an ecommerce project built using Node.js (Express) and MySQL as the backend technologies. It also
+        utilizes JWT Authentication for secure user authentication, Cloudinary for image hosting, Redis for caching,
+        Nodemailer for email notifications, Docker for containerization, and GitHub Actions and Webhooks for CI/CD.
+        The project is hosted on an AWS EC2 instance and utilizes Jenkins for continuous integration and deployment.
+    </p>
+    </section>
+
+    <section>
+        <h2 style="color: #007bff;">Features</h2>
+        <ul>
+            <li>Register and authenticate users with the OTP code sent to the registration email. Authenticate logged in
+                users using JWT</li>
+            <li>Product listing and searching</li>
+            <li>Product categorization and filtering</li>
+            <li>
+                Comment functionality allows users to post comments on products. Nested commenting enables users to
+                reply directly
+                to comments, facilitating discussion and user engagement. This feature supports threaded conversations,
+                where
+                replies are displayed under the original comment, creating an organized and easy-to-follow discussion
+                format.
+            </li>
+            <li>Shopping cart functionality</li>
+            <li>Order tracking and processing when many people order at the same time, avoid the situation where there
+                is only 1 product
+                left but many people order</li>
+            <li>Admin dashboard for managing products (status , stock, publish date), orders, discount, shipping status
+            </li>
+        </ul>
+    </section>
+
+    <footer>
+        <button onclick="window.location.href = 'https://shop-ecommerce.click/api-docs';"
+            style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">
+            View Document API
+        </button>
+    </footer>
+</body>
+
+</html>

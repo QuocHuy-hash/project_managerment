@@ -1,0 +1,2 @@
+2025-02-09 17:21:03::[error]::undefined::POST /v1/api/user/create - "Error : User already created" - Body::{"username":"quochuy123","password":"123456","email":"huy343536@gmail.com","role":"Owner"}::undefined
+2025-02-09 17:21:33::[error]::undefined::POST /v1/api/user/create - "getInfoData is not defined" - Body::{"username":"quochuy123","password":"123456","email":"huy343536@gmail.com","role":"Owner"}::undefined
