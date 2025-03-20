@@ -31,7 +31,7 @@ class Logger {
                     filename: '%DATE%.error.log',
                     datePattern: 'YYYY-MM-DD-mm',
                     zippedArchive: true,  // nen file log
-                    maxSize: '50m', //dung luong file log
+                    maxSize: '50mb', //dung luong file log
                     maxFiles: '8d', //so ngay giu file log => se xoa trong 8 ngay
                     format: combine(
                         winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),

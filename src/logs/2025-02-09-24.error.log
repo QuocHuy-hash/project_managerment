@@ -1,1 +1,1 @@
-2025-02-09 17:24:01::[error]::undefined::POST /v1/api/user/login - "Cannot read properties of undefined (reading 'findOne')" - Body::{"username":"quochuy123","password":"123456"}::undefined
+2025-02-09 21:24:11::[error]::undefined::POST /v1/api/project/create - "userId is not defined" - Body::{"name":"Cloude_Camera","description":"Dự án mới của khách hàng abc","owner_id":4,"start_date":"2025-02-30 09:00:00","end_date":"2026-02-30 09:00:00"}::undefined

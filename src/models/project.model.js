@@ -57,7 +57,6 @@ module.exports = (sequelize, DataTypes) => {
         sequelize,
         modelName: 'Project',
         tableName: 'Projects',
-        underscored: true,
         hooks: {
             afterCreate: async (project, options) => {
                 // Update user's total_projects

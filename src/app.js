@@ -9,6 +9,7 @@ const cors = require('cors');
 require('dotenv').config();
 var app = express();
 const logs = require('./loggers/logs');
+const { BadRequestError, ErrorResponse } = require('./core/error.response');
 
 // view engine setup
 app.use(express.json());
@@ -20,9 +21,8 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 var corsOptions = {
-  origin: ['http://127.0.0.1:3000', 'http://localhost:3000', 'http:127.0.0.1:3055',
-    'https://shop-ecommerce.click/', 'http://localhost:9000', 'http://localhost:5173'],
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  origin: ['http://127.0.0.1:3000'],
+  methods: "GET,POST",
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions));
@@ -38,12 +38,24 @@ app.get('/', function (req, res) {
 
 // catch 404 and forward to error handler
 app.use(function (error, req, res, next) {
-  next(createError(404));
+  if (error instanceof ErrorResponse) {
+    return res.status(error.status).json({
+      status: 'error',
+      code: error.status,
+      message: error.message
+    });
+  }
   console.log(error.message)
   const strError = JSON.stringify(error.message);
   const body = JSON.stringify(req.body);
   const errorMessage = `${req.method} ${req.path} - ${strError} - Body::${body}`;
   logs.error(errorMessage, req.body);
+  const statusCode = error.status || 500;
+  return res.status(statusCode).json({
+    status: 'error',
+    code: statusCode,
+    message: error.message || 'Internal Service Error'
+  });
 });
 
 // init handle exceptions
@@ -53,13 +65,5 @@ app.use((req, res, next) => {
   next(error);
 })
 
-app.use((error, req, res, next) => {
-  const statusCode = error.status || 500;
-  return res.status(statusCode).json({
-    status: 'error',
-    code: statusCode,
-    message: error.message || 'Internal Service Error'
-  })
-})
 
 module.exports = app;

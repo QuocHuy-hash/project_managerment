@@ -42,8 +42,16 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 0
       },
+      tasks_with_bugs: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
       average_completion_time: {
         type: Sequelize.FLOAT,
+        defaultValue: 0
+      },
+      tasks_completed_late: {
+        type: Sequelize.INTEGER,
         defaultValue: 0
       },
       bug_rate: {

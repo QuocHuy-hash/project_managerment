@@ -38,6 +38,13 @@ module.exports = (sequelize, DataTypes) => {
                 len: [3, 50]
             }
         },
+        name: {
+            type: DataTypes.STRING(50),
+            allowNull: true,
+            validate: {
+                len: [3, 50]
+            }
+        },
         email: {
             type: DataTypes.STRING(100),
             allowNull: false,
@@ -60,18 +67,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         total_projects: {
             type: DataTypes.INTEGER,
-            defaultValue: 0
-        },
-        total_tasks_completed: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0
-        },
-        total_tasks_incompleted: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0
-        },
-        completion_rate: {
-            type: DataTypes.FLOAT,
             defaultValue: 0
         },
         performance_score: {

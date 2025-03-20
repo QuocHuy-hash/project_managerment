@@ -10,6 +10,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      name: {
+        type: Sequelize.STRING(50),
+        allowNull: true
+      },
       username: {
         type: Sequelize.STRING(50),
         allowNull: false,
@@ -30,18 +34,6 @@ module.exports = {
       },
       total_projects: {
         type: Sequelize.INTEGER,
-        defaultValue: 0
-      },
-      total_tasks_completed: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-      },
-      total_tasks_incompleted: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-      },
-      completion_rate: {
-        type: Sequelize.FLOAT,
         defaultValue: 0
       },
       performance_score: {

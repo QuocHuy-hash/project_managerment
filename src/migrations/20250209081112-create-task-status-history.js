@@ -17,6 +17,10 @@ module.exports = {
         },
         onDelete: 'CASCADE'
       },
+      is_late: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       old_status: {
         type: Sequelize.ENUM('To Do', 'In Progress', 'Ready for Test', 'Has Bug', 'Tested', 'Released')
       },

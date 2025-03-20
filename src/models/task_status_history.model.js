@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.ENUM('To Do', 'In Progress', 'Ready for Test', 'Has Bug', 'Tested', 'Released'),
             allowNull: false
         },
+        is_late: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
         changed_by: {
             type: DataTypes.INTEGER,
             allowNull: false
@@ -38,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'TaskStatusHistory',
-        timestamps: false
     });
 
     return TaskStatusHistory;

@@ -1,0 +1,1 @@
+2025-02-09 21:18:26::[error]::undefined::POST /v1/api/project/create - "Unknown column 'created_at' in 'field list'" - Body::{"name":"Cloude_Camera","description":"Dự án mới của khách hàng abc","start_date":"2025-02-30 09:00:00","end_date":"2026-02-30 09:00:00"}::undefined

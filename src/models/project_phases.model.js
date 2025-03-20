@@ -32,18 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         progress_rate: {
             type: DataTypes.FLOAT,
             defaultValue: 0
-        },
-        created_at: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
-
         }
     }, {
-
         sequelize,
         modelName: 'ProjectPhase',
-        timestamps: false
-
     });
 
     return ProjectPhase;

@@ -1,7 +1,7 @@
 'use strict'
 
 const { CreatedResponse, SuccessResponse } = require("../core/success.response");
-const { login, createUser } = require("../services/user.service");
+const { login, createUser, listUser } = require("../services/user.service");
 
 const HEADER = {
     CLIENT_ID: 'x-client-id',
@@ -12,6 +12,12 @@ class UsersController {
         new SuccessResponse({
             message: 'login Success',
             metadata: await login(req.body),
+        }).send(res)
+    }
+    listUser = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'get list users Success',
+            metadata: await listUser(),
         }).send(res)
     }
     createUser = async (req, res, next) => {

@@ -39,12 +39,20 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             defaultValue: 0
         },
+        tasks_completed_late: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        },
         average_completion_time: {
             type: DataTypes.FLOAT,
             defaultValue: 0
         },
         bug_rate: {
             type: DataTypes.FLOAT,
+            defaultValue: 0
+        },
+        tasks_with_bugs: {
+            type: DataTypes.INTEGER,
             defaultValue: 0
         },
         average_rating: {
@@ -63,15 +71,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.FLOAT,
             defaultValue: 0
         },
-        updated_at: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
-        }
     }, {
 
         sequelize,
         modelName: 'UserPerformance',
-        timestamps: false,
         indexes: [
             {
                 unique: true,

@@ -4,15 +4,15 @@ const { User } = require("../../models")
 
 const findByUserName = async ({ username }) => {
     // Specify the attributes you want to retrieve
-    const attributes = ['id', 'username', 'email', 'password', 'total_projects',
-        'total_tasks_completed', 'total_tasks_incompleted'];
+    const attributes = ['id', 'username', 'email', 'password', 'total_projects'];
     // Use the attributes in the findOne query
     return await User.findOne({
         where: { username: username },
         attributes: attributes, // Only select the specified attributes
     });
 }
-const findById = async ({ userId }) => {
+const UserFindById = async ({ userId }) => {
+    console.log("UserFindById", userId)
     // Specify the attributes you want to retrieve
     const attributes = ['id', 'username',];
     // Use the attributes in the findOne query
@@ -24,5 +24,5 @@ const findById = async ({ userId }) => {
 
 module.exports = {
     findByUserName,
-    findById
+    UserFindById
 }

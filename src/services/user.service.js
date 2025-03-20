@@ -84,5 +84,12 @@ const createUser = async (user) => {
     }
 
 };
-
-module.exports = { login, createUser }
+const listUser = async () => {
+    const attribute = ['id', 'username', 'email', 'role', 'total_projects', 'performance_score', 'average_rating'];
+    return await User.findAll(
+        {
+            attributes: attribute
+        }
+    );
+}
+module.exports = { login, createUser, listUser }

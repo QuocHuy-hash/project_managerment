@@ -50,6 +50,7 @@ class ForbidenError extends ErrorResponse {
 }
 
 module.exports = {
+    ErrorResponse,
     ConflictRequestError,
     BadRequestError,
     AuthFailureError,

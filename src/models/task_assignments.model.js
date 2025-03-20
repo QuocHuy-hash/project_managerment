@@ -30,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'TaskAssignment',
-        timestamps: false
     });
 
     return TaskAssignment;
